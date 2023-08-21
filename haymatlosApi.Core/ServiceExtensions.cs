@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using haymatlosApi.Models;
 using Microsoft.OpenApi.Models;
+using haymatlosApi.haymatlosApi.Utils;
 
 namespace haymatlosApi.haymatlosApi.Core.Extensions
 {
@@ -53,6 +54,7 @@ namespace haymatlosApi.haymatlosApi.Core.Extensions
         public static void AddScopedServices(this IServiceCollection services)
         {
             services.AddScoped<UserService>();
+            services.AddScoped<tokenUtil>();
         }
 
         public static void AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)

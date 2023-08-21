@@ -1,4 +1,6 @@
-﻿using haymatlosApi.Services;
+﻿using haymatlosApi.haymatlosApi.Utils;
+using haymatlosApi.Models;
+using haymatlosApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,6 +32,14 @@ namespace haymatlosApi.Controllers
             await _userService.registerUser(nickname, password); 
         }
 
+        //UPDATE:
+        [Authorize(Roles = "admin")]
+        [HttpPut("{userId}")]
+        public async Task updateUser(Guid userId, [FromBody] User user)
+        {
+            await _userService.updateuser(userId, user);
+        }
+
         //DELETE:
         [Authorize(Roles = "admin")]
         [HttpDelete("{userId}")]
@@ -41,13 +51,10 @@ namespace haymatlosApi.Controllers
         //LOGIN
         [AllowAnonymous]
         [HttpGet("login/{nickname}/{password}")]
-        public async Task<IActionResult> loginUser(string nickname, string password)
+        public async Task<HttpResponseMessage> loginUser(string nickname, string password)
         {
            var token = await _userService.loginUser(nickname, password);
-            if (token == null || token == String.Empty)
-                return BadRequest(new { message = "User name or password is incorrect" });
-
-            return Ok(token);
+           return await NullChecker.IsNullOrUndefinedAsync(token);
         }
     }
 }

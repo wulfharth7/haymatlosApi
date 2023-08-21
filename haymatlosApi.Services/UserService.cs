@@ -1,4 +1,5 @@
-﻿using haymatlosApi.Models;
+﻿using haymatlosApi.haymatlosApi.Utils;
+using haymatlosApi.Models;
 using haymatlosApi.Utils;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -13,9 +14,14 @@ namespace haymatlosApi.Services
     public class UserService
     {
         private PostgresContext _context;
+        private readonly tokenUtil _tokenUtil;
         private readonly string passwordSalt = PasswordHashing.GenerateSalt();
 
-        public UserService(PostgresContext postgresContext) => _context = postgresContext;
+        public UserService(PostgresContext postgresContext, tokenUtil tokenutil)
+        {
+            _context = postgresContext; 
+            _tokenUtil = tokenutil;
+        } 
 
         public async Task<List<User>> getUsers()
         {
@@ -25,6 +31,7 @@ namespace haymatlosApi.Services
 
         public async Task registerUser(string nickname, string password)
         {
+            //null checker will do more stuff here.
             var user = new User() { 
                 Nickname = nickname,
                 IsIndexed = false,
@@ -37,24 +44,31 @@ namespace haymatlosApi.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task updateuser(Guid uuid, User newUser)
+        public async Task<object?> updateuser(Guid uuid, User newUser)
         {
             var user = await _context.Users.FindAsync(uuid);
+            if (!NullChecker.IsNull(user))
+            {
+                return null;
+            }
             user.Nickname = newUser.Nickname;
             user.Password = newUser.Password;
             user.Role = newUser.Role;
             user.Token = newUser.Token;
             await _context.SaveChangesAsync();
+            return user;
         }
 
-        public async Task deleteUser(Guid pkey_uuid)
+        public async Task<object?> deleteUser(Guid pkey_uuid)
         {
             var user = await _context.Users.Where(d => d.Uuid.Equals(pkey_uuid)).FirstOrDefaultAsync();
-            if(user != null)
+            if(!NullChecker.IsNull(user))
             {
-                _context.Users.Remove(user); //isnt this blocking a thread?
+                _context.Users.Remove(user);    //isnt this blocking a thread?
                 await _context.SaveChangesAsync();
+                return user.Uuid;
             }
+            return null;
         }
 
         //there has to be an authorization thing and stuff with jwt.
@@ -66,26 +80,9 @@ namespace haymatlosApi.Services
             var passwordHash = PasswordHashing.ComputeHash(password, user.Salt);
             if (user.Password == passwordHash)
             {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes("this_will_also_change_later");   //a config is needed for this.
-
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.Nickname),
-                    new Claim(ClaimTypes.Role, user.Role)
-                }),
-
-                    Expires = DateTime.UtcNow.AddMinutes(5),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                };
-
-                var token =  tokenHandler.CreateToken(tokenDescriptor);
-                user.Token = tokenHandler.WriteToken(token);
-                await updateuser(user.Uuid,user);
-                return user.Token;
-
+                var newUser = await _tokenUtil.createToken(user);
+                await updateuser(user.Uuid, newUser);
+                return newUser.Token;
             }
             else
             {
@@ -93,5 +90,7 @@ namespace haymatlosApi.Services
             }
 
         }
+
+        
     }
 }
