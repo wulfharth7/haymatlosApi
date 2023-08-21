@@ -15,5 +15,7 @@ public partial class User
 
     public string? Salt { get; set; }
 
+    public string? Role { get; set; }
+
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
 }

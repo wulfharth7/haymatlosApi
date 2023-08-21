@@ -77,6 +77,7 @@ public partial class PostgresContext : DbContext
             entity.Property(e => e.IsIndexed).HasColumnName("isIndexed");
             entity.Property(e => e.Nickname).HasColumnName("nickname");
             entity.Property(e => e.Password).HasColumnName("password");
+            entity.Property(e => e.Role).HasColumnName("role");
             entity.Property(e => e.Salt).HasColumnName("salt");
         });
 

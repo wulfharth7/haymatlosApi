@@ -33,6 +33,7 @@ namespace haymatlosApi.Controllers
             await _userService.deleteUser(userId);
         }
 
+        //LOGIN
         [HttpGet("login/{nickname}/{password}")]
         public async Task loginUser(string nickname, string password)
         {
