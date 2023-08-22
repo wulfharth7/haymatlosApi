@@ -1,4 +1,4 @@
-﻿using haymatlosApi.Models;
+﻿using haymatlosApi.haymatlosApi.Models;
 using haymatlosApi.Services;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -22,7 +22,7 @@ namespace haymatlosApi.haymatlosApi.Utils
                     new Claim(ClaimTypes.Role, user.Role)
             }),
 
-                Expires = DateTime.UtcNow.AddMinutes(5),
+                Expires = DateTime.UtcNow.AddMinutes(30),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 

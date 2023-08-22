@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Text;
 using haymatlosApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using haymatlosApi.Models;
+using Microsoft.IdentityModel.Tokens; 
 using Microsoft.OpenApi.Models;
 using haymatlosApi.haymatlosApi.Utils;
+using System.Text.Json.Serialization;
+using haymatlosApi.haymatlosApi.Models;
 
 namespace haymatlosApi.haymatlosApi.Core.Extensions
 {
@@ -15,7 +16,7 @@ namespace haymatlosApi.haymatlosApi.Core.Extensions
     {
         public static void AddSwagger(this IServiceCollection services)
         {
-            //using authorization with swagger ui here, it adds a box to authorize the token. no scopes yet.
+            //using authorization with swagger ui here, it adds a box to authorize the token. 
             services.AddSwaggerGen(opt =>                                                      
             {
                 opt.SwaggerDoc("v1", new OpenApiInfo { Title = "MyAPI", Version = "v1" });
@@ -55,6 +56,8 @@ namespace haymatlosApi.haymatlosApi.Core.Extensions
         {
             services.AddScoped<UserService>();
             services.AddScoped<tokenUtil>();
+            services.AddScoped<PostService>();
+            services.AddScoped<CommentService>();
         }
 
         public static void AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
@@ -78,5 +81,12 @@ namespace haymatlosApi.haymatlosApi.Core.Extensions
                 };
             });
         }
-    }
+
+        public static void AddJsonSerializer(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddControllers()
+            .AddJsonOptions(o => o.JsonSerializerOptions
+               .ReferenceHandler = ReferenceHandler.Preserve);
+        }
+     }
 }

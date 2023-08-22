@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace haymatlosApi.Models;
+namespace haymatlosApi.haymatlosApi.Models;
 
 public partial class Post
 {

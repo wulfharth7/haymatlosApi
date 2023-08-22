@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace haymatlosApi.Models;
+namespace haymatlosApi.haymatlosApi.Models;
 
 public partial class PostgresContext : DbContext
 {
@@ -41,6 +41,7 @@ public partial class PostgresContext : DbContext
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.FkeyUuidPost).HasColumnName("fkey_uuid_post");
             entity.Property(e => e.IsIndexed).HasColumnName("isIndexed");
+            entity.Property(e => e.ParentComment).HasColumnName("parentComment");
 
             entity.HasOne(d => d.FkeyUuidPostNavigation).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.FkeyUuidPost)

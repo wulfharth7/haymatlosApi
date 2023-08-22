@@ -20,7 +20,8 @@ host.Run();
 
 
 //TODO LIST
-
+//reverse proxy class needed.
+//create a class for responses. 
 //need elastic search
 //maybe add redis or kafka and stuff
 //definitely containerize the backend
