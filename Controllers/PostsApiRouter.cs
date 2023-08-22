@@ -1,4 +1,5 @@
 ﻿using haymatlosApi.haymatlosApi.Models;
+using haymatlosApi.haymatlosApi.Utils.haymatlosApi.Pagination;
 using haymatlosApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +15,9 @@ namespace haymatlosApi.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IEnumerable<Post>> getPostsOfUser(Guid userId)
+        public async Task<PaginatedResponse<IEnumerable<Post>>> getPostsOfUser(Guid userId, [FromQuery] PaginationFilter filter)
         {
-            return await _postService.getPostsOfUser(userId);
+            return await _postService.getPostsOfUser(userId, filter);
         } 
 
         //POST:
