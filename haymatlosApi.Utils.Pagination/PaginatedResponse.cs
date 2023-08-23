@@ -1,4 +1,6 @@
-﻿namespace haymatlosApi.haymatlosApi.Utils.haymatlosApi.Pagination
+﻿using haymatlosApi.haymatlosApi.Utils.Objects;
+
+namespace haymatlosApi.haymatlosApi.Utils.Pagination
 {
     public class PaginatedResponse<T> : ResponseResult<T>
     {
@@ -10,14 +12,15 @@
         public int TotalRecords { get; set; }
         public Uri NextPage { get; set; }
         public Uri PreviousPage { get; set; }
-        public PaginatedResponse(T data, int pageNumber, int pageSize)
+        public PaginatedResponse(T data, int pageNumber, int pageSize, int totalRecords)
         {
-            this.PageNumber = pageNumber;
-            this.PageSize = pageSize;
-            this.Data = data;
-            this.Message = null;
-            this.Succeeded = true;
-            this.Errors = null;
+            PageNumber = pageNumber;
+            PageSize = pageSize;
+            Data = data;
+            Message = null;
+            Succeeded = true;
+            Errors = null;
+            TotalRecords = totalRecords;
         }
     }
 }

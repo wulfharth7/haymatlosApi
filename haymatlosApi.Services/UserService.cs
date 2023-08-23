@@ -1,6 +1,6 @@
 ﻿using haymatlosApi.haymatlosApi.Models;
 using haymatlosApi.haymatlosApi.Utils;
-using haymatlosApi.haymatlosApi.Utils.haymatlosApi.Pagination;
+using haymatlosApi.haymatlosApi.Utils.Pagination;
 using haymatlosApi.Utils;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -34,29 +34,22 @@ namespace haymatlosApi.Services
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)
                 .ToListAsync();
-            return new PaginatedResponse<IEnumerable<User>>(pagedUserData, validFilter.PageNumber, validFilter.PageSize);
+            var totalRecords = await _context.Users.CountAsync();
+
+            return new PaginatedResponse<IEnumerable<User>>(pagedUserData, validFilter.PageNumber, validFilter.PageSize, totalRecords);
         }
 
-        public async Task<User> getUserById(Guid userId, bool getPosts)
+        public async Task<User> getUserById(Guid userId, bool getPosts = false, PaginationFilter filter = null)
         {
             //ask if posts are needed for example.
             var user = await _context.Users.FindAsync(userId);
-            if(getPosts == true) user.Posts = await _postService.getPostsOfUser(userId);            //this shouldn't be needed probably?, i think my schema is wrong? i have to double check this
+            if(getPosts == true) user.Posts = (ICollection<Post>)await _postService.getPostsOfUser(userId, filter);            //this shouldn't be needed probably?, i think my schema is wrong? i have to double check this
             return user;
         }
 
         public async Task registerUser(string nickname, string password)
         {
-            //null checker will do more stuff here.
-
-            var user = new User() { 
-                Nickname = nickname,
-                IsIndexed = false,
-                Uuid = Guid.NewGuid(),
-                Salt = passwordSalt,
-                Role = "user",                                                                  //there wont be much of admins so this is fine.
-                Password = PasswordHashing.ComputeHash(password, passwordSalt)                  //maybe for later there can be a service that decides what kind of role they'll have.
-            };
+            var user = new ObjectFactoryUser<User>().createUserObj(nickname,password,passwordSalt);                            //null checker will do more stuff here.
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
             Console.WriteLine(user);
@@ -69,7 +62,7 @@ namespace haymatlosApi.Services
             {
                 return null;
             }
-            user.Nickname = newUser.Nickname;
+            user.Nickname = newUser.Nickname; //this should go into the object factory too.
             user.Password = newUser.Password;
             user.Role = newUser.Role;
             user.Token = newUser.Token;

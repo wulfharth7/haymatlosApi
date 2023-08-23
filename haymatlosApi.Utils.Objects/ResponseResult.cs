@@ -1,4 +1,4 @@
-﻿namespace haymatlosApi.haymatlosApi.Utils
+﻿namespace haymatlosApi.haymatlosApi.Utils.Objects
 {
     public class ResponseResult<T>
     {

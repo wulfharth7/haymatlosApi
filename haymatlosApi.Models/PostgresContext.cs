@@ -42,6 +42,7 @@ public partial class PostgresContext : DbContext
             entity.Property(e => e.FkeyUuidPost).HasColumnName("fkey_uuid_post");
             entity.Property(e => e.IsIndexed).HasColumnName("isIndexed");
             entity.Property(e => e.ParentComment).HasColumnName("parentComment");
+            entity.Property(e => e.RegDate).HasColumnName("regDate");
 
             entity.HasOne(d => d.FkeyUuidPostNavigation).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.FkeyUuidPost)
@@ -61,6 +62,7 @@ public partial class PostgresContext : DbContext
                 .HasColumnName("pkey_uuid_post");
             entity.Property(e => e.FkeyUuidUser).HasColumnName("fkey_uuid_user");
             entity.Property(e => e.IsIndexed).HasColumnName("isIndexed");
+            entity.Property(e => e.RegDate).HasColumnName("regDate");
             entity.Property(e => e.Title).HasColumnName("title");
 
             entity.HasOne(d => d.FkeyUuidUserNavigation).WithMany(p => p.Posts)
@@ -82,6 +84,7 @@ public partial class PostgresContext : DbContext
             entity.Property(e => e.IsIndexed).HasColumnName("isIndexed");
             entity.Property(e => e.Nickname).HasColumnName("nickname");
             entity.Property(e => e.Password).HasColumnName("password");
+            entity.Property(e => e.RegDate).HasColumnName("regDate");
             entity.Property(e => e.Role).HasColumnName("role");
             entity.Property(e => e.Salt).HasColumnName("salt");
             entity.Property(e => e.Token).HasColumnName("token");

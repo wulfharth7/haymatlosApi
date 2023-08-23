@@ -1,4 +1,4 @@
-﻿namespace haymatlosApi.haymatlosApi.Utils.haymatlosApi.Pagination
+﻿namespace haymatlosApi.haymatlosApi.Utils.Pagination
 {
     public class PaginationFilter
     {
@@ -6,13 +6,13 @@
         public int PageSize { get; set; }
         public PaginationFilter()
         {
-            this.PageNumber = 1;
-            this.PageSize = 10;
+            PageNumber = 1;
+            PageSize = 10;
         }
         public PaginationFilter(int pageNumber, int pageSize)
         {
-            this.PageNumber = pageNumber < 1 ? 1 : pageNumber;
-            this.PageSize = pageSize > 10 ? pageSize : 10 ;
+            PageNumber = pageNumber < 1 ? 1 : pageNumber;
+            PageSize = pageSize > 10 ? pageSize : 10;
         }
     }
 }

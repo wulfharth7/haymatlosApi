@@ -19,5 +19,7 @@ public partial class User
 
     public string? Token { get; set; }
 
+    public DateTime? RegDate { get; set; }
+
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
 }

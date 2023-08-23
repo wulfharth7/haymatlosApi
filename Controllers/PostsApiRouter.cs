@@ -1,5 +1,5 @@
 ﻿using haymatlosApi.haymatlosApi.Models;
-using haymatlosApi.haymatlosApi.Utils.haymatlosApi.Pagination;
+using haymatlosApi.haymatlosApi.Utils.Pagination;
 using haymatlosApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +8,7 @@ namespace haymatlosApi.Controllers
 {
     [Route("/posts/")]
     [ApiController]
+    [AllowAnonymous]
     public class PostsApiRouter : ControllerBase
     {
         readonly PostService _postService;

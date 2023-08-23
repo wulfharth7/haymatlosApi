@@ -18,14 +18,7 @@ namespace haymatlosApi.Services
 
         public async Task createComment(Guid postId, Comment comment, Guid? parentComment)
         {
-            Comment cm1 = new Comment()
-            {
-                PkeyUuidComment = Guid.NewGuid(),
-                FkeyUuidPost = postId,
-                Description = comment.Description,
-                IsIndexed = false,
-                ParentComment = parentComment,
-            };
+            var cm1 = new ObjectFactoryComment<Comment>().createCommentObj(postId,comment, parentComment);
             await _context.Comments.AddAsync(cm1);
             await _context.SaveChangesAsync();
         }

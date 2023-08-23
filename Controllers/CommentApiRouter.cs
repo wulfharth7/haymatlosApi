@@ -7,6 +7,7 @@ using System.Data;
 namespace haymatlosApi.Controllers
 {
     [Route("/comments/")]
+    [AllowAnonymous]
     [ApiController]
     public class CommentApiRouter : ControllerBase
     {

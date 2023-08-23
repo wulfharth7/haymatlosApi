@@ -1,6 +1,6 @@
 ﻿using haymatlosApi.haymatlosApi.Models;
 using haymatlosApi.haymatlosApi.Utils;
-using haymatlosApi.haymatlosApi.Utils.haymatlosApi.Pagination;
+using haymatlosApi.haymatlosApi.Utils.Pagination;
 using haymatlosApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

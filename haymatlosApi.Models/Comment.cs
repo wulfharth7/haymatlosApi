@@ -15,5 +15,7 @@ public partial class Comment
 
     public Guid? ParentComment { get; set; }
 
+    public DateTime? RegDate { get; set; }
+
     public virtual Post? FkeyUuidPostNavigation { get; set; }
 }

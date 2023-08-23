@@ -13,6 +13,8 @@ public partial class Post
 
     public bool? IsIndexed { get; set; }
 
+    public DateTime? RegDate { get; set; }
+
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
     public virtual User? FkeyUuidUserNavigation { get; set; }
