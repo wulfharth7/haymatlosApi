@@ -25,11 +25,14 @@ namespace haymatlosApi.Services
         public async Task<PaginatedResponse<IEnumerable<Post>>> getPostsOfUser(Guid userId, PaginationFilter filter)
         {
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
-            var pagedPostData = await _context.Posts.Where(x => x.FkeyUuidUser.Equals(userId))
+            var pagedPostData = await _context.Posts
+                .Where(x => x.FkeyUuidUser.Equals(userId))
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)
                 .ToListAsync();
-            return new PaginatedResponse<IEnumerable<Post>>(pagedPostData, validFilter.PageNumber, validFilter.PageSize);
+            var totalRecords = await _context.Posts.CountAsync();
+
+            return new PaginatedResponse<IEnumerable<Post>>(pagedPostData, validFilter.PageNumber, validFilter.PageSize, totalRecords);
         }
 
         public async Task deletePost(Guid postId)

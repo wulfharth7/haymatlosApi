@@ -34,7 +34,9 @@ namespace haymatlosApi.Services
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)
                 .ToListAsync();
-            return new PaginatedResponse<IEnumerable<User>>(pagedUserData, validFilter.PageNumber, validFilter.PageSize);
+            var totalRecords = await _context.Users.CountAsync();
+
+            return new PaginatedResponse<IEnumerable<User>>(pagedUserData, validFilter.PageNumber, validFilter.PageSize, totalRecords);
         }
 
         public async Task<User> getUserById(Guid userId, bool getPosts = false, PaginationFilter filter = null)
