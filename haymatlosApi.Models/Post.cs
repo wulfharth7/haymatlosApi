@@ -16,7 +16,7 @@ public partial class Post
     public short? Like { get; set; }
 
     public short? Dislike { get; set; }
-
+   
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
     public virtual User? FkeyUuidUserNavigation { get; set; }

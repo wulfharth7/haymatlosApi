@@ -8,6 +8,12 @@ using System.Data;
 
 namespace haymatlosApi.Controllers
 {
+    public class PostAndComment
+    {
+        public Post post { get; set; }
+        public Comment comment { get; set; }
+    }
+
     [Route("/comments/")]
     [AllowAnonymous]
     [ApiController]
@@ -19,12 +25,11 @@ namespace haymatlosApi.Controllers
         //POST:
         [HttpPost]
         [Authorize(Roles = "user")]
-        public async Task/*<Comment>*/ createComment(JObject postAndCommentDatafromJson, Guid? parentComment)
+        public async Task/*<Comment>*/ createComment(PostAndComment model, Guid? parentComment)
         {
-            var post_and_comment = objectsFromJsonData.PostAndComment(postAndCommentDatafromJson);
-            await _commentService.createComment(post_and_comment.Item1, post_and_comment.Item2, parentComment);
+            await _commentService.createComment(model.post, model.comment, parentComment);
         }
-        //i did this bcs turns out the endpoint doesn't like two different complicated classes as parameters. I had to send them from the JObj but this will be improved. just making it work for now.
+
         [HttpPut]
         [Authorize(Roles = "admin,user")]
         public async Task deleteComment(Guid commentId)

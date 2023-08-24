@@ -63,7 +63,7 @@ public class ObjectFactoryComment<T> where T : Comment, new()
         _comment.Description = comment.Description;
         _comment.Like = 0;
         _comment.Dislike = 0;
-        comment.FkeyUuidUser = post.FkeyUuidUser;
+        _comment.FkeyUuidUser = post.FkeyUuidUser;
         _comment.ParentComment = parentComment;
 
         return _comment;
@@ -74,3 +74,17 @@ public class ObjectFactoryComment<T> where T : Comment, new()
          return _createdObject;
      }*/
 }
+
+/*
+ {
+	"post": {
+		"pkeyUuidPost": "9ec06c37-e22a-4ca1-8b04-554e3b60af15",
+		"title": "string",
+		"fkeyUuidUser": "a89d56f1-d405-453e-90be-cc02e2c896ce"
+
+	},
+	"comment": {
+		"description": "dfghj"
+	}
+}
+ */

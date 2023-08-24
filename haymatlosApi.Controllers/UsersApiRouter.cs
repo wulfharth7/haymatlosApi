@@ -4,6 +4,7 @@ using haymatlosApi.haymatlosApi.Utils.Pagination;
 using haymatlosApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Collections;
 
 namespace haymatlosApi.Controllers
@@ -17,6 +18,11 @@ namespace haymatlosApi.Controllers
         readonly UserService _userService;
         public UsersApiRouter(UserService userService) => _userService = userService;
 
+        [HttpGet("indx")]
+        public async Task indx()
+        {
+            await _userService.getindx();
+        }
 
         // GET:  
         [Authorize(Roles = "user")]

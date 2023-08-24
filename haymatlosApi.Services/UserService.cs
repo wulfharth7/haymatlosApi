@@ -1,4 +1,5 @@
-﻿using haymatlosApi.haymatlosApi.Models;
+﻿using haymatlosApi.haymatlosApi.ElasticSearch;
+using haymatlosApi.haymatlosApi.Models;
 using haymatlosApi.haymatlosApi.Utils;
 using haymatlosApi.haymatlosApi.Utils.Pagination;
 using haymatlosApi.Utils;
@@ -18,13 +19,15 @@ namespace haymatlosApi.Services
         private readonly PostgresContext _context;
         private readonly PostService _postService;
         private readonly tokenUtil _tokenUtil;
+        private readonly CommentService _commentService;
         private readonly string passwordSalt = PasswordHashing.GenerateSalt();
 
-        public UserService(PostgresContext postgresContext, tokenUtil tokenutil, PostService postservice)
+        public UserService(PostgresContext postgresContext, tokenUtil tokenutil, PostService postservice, CommentService commentservice)
         {
             _context = postgresContext; 
             _tokenUtil = tokenutil;
             _postService = postservice;
+            _commentService = commentservice;
         } 
 
         public async Task<PaginatedResponse<IEnumerable<User>>> getUsers(PaginationFilter filter)
@@ -102,6 +105,34 @@ namespace haymatlosApi.Services
 
         }
 
+        public async Task getindx() //all of this will be moved to indexer service
+        {
+            var validFilter = new PaginationFilter();
+            var users = await _context.Users
+                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
+                .ToListAsync();
+
+            var editedUsers = new List<User>();
+            foreach (var user in users)
+            {
+                var posts = await _context.Posts
+                    .Where(d => d.FkeyUuidUser.Equals(user.Uuid))
+                    .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                    .Take(validFilter.PageSize)
+                    .ToListAsync();
+
+                var editedPosts = new List<Post>();
+                foreach (var post in posts)
+                {
+                    editedPosts.Add(new Post { Title = post.Title, PkeyUuidPost = post.PkeyUuidPost });
+                }
+
+                editedUsers.Add(new User { Uuid = user.Uuid, Nickname = user.Nickname, Posts = editedPosts });
+            }
+            await JsonFileUtils.SimpleWrite(editedUsers);
+                 
+        }
         
     }
 }

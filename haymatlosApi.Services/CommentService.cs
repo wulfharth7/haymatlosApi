@@ -30,5 +30,11 @@ namespace haymatlosApi.Services
             await _context.SaveChangesAsync();
             //return post uuid
         }
+
+        public async Task<List<Comment>> getUserComments(Guid userId)
+        {
+            var comments = await _context.Comments.Where(id => id.FkeyUuidUser.Equals(userId)).ToListAsync();
+            return comments;
+        }
     }
 }
