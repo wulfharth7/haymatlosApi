@@ -17,9 +17,9 @@ namespace haymatlosApi.Controllers
         //POST:
         [HttpPost]
         [Authorize(Roles = "user")]
-        public async Task/*<Comment>*/ createComment(Guid postId, Comment comment, Guid? parentComment)
+        public async Task/*<Comment>*/ createComment(Post post, Comment comment, Guid? parentComment)
         {
-            await _commentService.createComment(postId, comment, parentComment);
+            await _commentService.createComment(post, comment, parentComment);
         }
 
         [HttpPut]

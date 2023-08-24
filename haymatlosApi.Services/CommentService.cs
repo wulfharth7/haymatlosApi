@@ -16,9 +16,9 @@ namespace haymatlosApi.Services
        first 35 comments lets say.
         }*/
 
-        public async Task createComment(Guid postId, Comment comment, Guid? parentComment)
+        public async Task createComment(Post post, Comment comment, Guid? parentComment)
         {
-            var cm1 = new ObjectFactoryComment<Comment>().createCommentObj(postId,comment, parentComment);
+            var cm1 = new ObjectFactoryComment<Comment>().createCommentObj(post,comment, parentComment);
             await _context.Comments.AddAsync(cm1);
             await _context.SaveChangesAsync();
         }

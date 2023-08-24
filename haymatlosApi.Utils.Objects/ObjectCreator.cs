@@ -15,8 +15,7 @@ public class ObjectFactoryUser<T> where T : User, new()
     //public ObjectFactory<T> WithUserSetup(string nickname, string password, string passwordSalt)
     public T createUserObj(string nickname, string password, string passwordSalt)
     {
-        _user.Nickname = nickname;
-        _user.IsIndexed = false;
+        _user.Nickname = nickname; 
         _user.Uuid = Guid.NewGuid();
         _user.Salt = passwordSalt;
         _user.RegDate = DateTime.UtcNow;
@@ -38,10 +37,11 @@ public class ObjectFactoryPost<T> where T : Post, new()
     public T createPostObj(Guid userId, Post post)
     {
         _post.PkeyUuidPost = Guid.NewGuid();
-        _post.FkeyUuidUser = userId; 
+        _post.FkeyUuidUser = userId;
+        _post.Like = 0;
+        _post.Dislike = 0;
         _post.RegDate = DateTime.UtcNow;
-        _post.Title = post.Title;
-        _post.IsIndexed = false;
+        _post.Title = post.Title; 
 
         return _post;
     }
@@ -55,13 +55,15 @@ public class ObjectFactoryComment<T> where T : Comment, new()
     {
         _comment = new T();
     }
-    public T createCommentObj(Guid postId, Comment comment, Guid? parentComment)
+    public T createCommentObj(Post post, Comment comment, Guid? parentComment)
     {
         _comment.PkeyUuidComment = Guid.NewGuid();
-        _comment.FkeyUuidPost = postId;
+        _comment.FkeyUuidPost = post.PkeyUuidPost;
         _comment.RegDate = DateTime.UtcNow;
         _comment.Description = comment.Description;
-        _comment.IsIndexed = false;
+        _comment.Like = 0;
+        _comment.Dislike = 0;
+        comment.FkeyUuidUser = post.FkeyUuidUser;
         _comment.ParentComment = parentComment;
 
         return _comment;
