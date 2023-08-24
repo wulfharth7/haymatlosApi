@@ -11,9 +11,11 @@ public partial class Post
 
     public Guid? FkeyUuidUser { get; set; }
 
-    public bool? IsIndexed { get; set; }
-
     public DateTime? RegDate { get; set; }
+
+    public short? Like { get; set; }
+
+    public short? Dislike { get; set; }
 
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 

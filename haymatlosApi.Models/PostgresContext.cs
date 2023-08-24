@@ -39,14 +39,20 @@ public partial class PostgresContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("pkey_uuid_comment");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Dislike).HasColumnName("dislike");
             entity.Property(e => e.FkeyUuidPost).HasColumnName("fkey_uuid_post");
-            entity.Property(e => e.IsIndexed).HasColumnName("isIndexed");
+            entity.Property(e => e.FkeyUuidUser).HasColumnName("fkey_uuid_user");
+            entity.Property(e => e.Like).HasColumnName("like");
             entity.Property(e => e.ParentComment).HasColumnName("parentComment");
             entity.Property(e => e.RegDate).HasColumnName("regDate");
 
             entity.HasOne(d => d.FkeyUuidPostNavigation).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.FkeyUuidPost)
                 .HasConstraintName("fkey_uuid_comment");
+
+            entity.HasOne(d => d.FkeyUuidUserNavigation).WithMany(p => p.Comments)
+                .HasForeignKey(d => d.FkeyUuidUser)
+                .HasConstraintName("fkey_uuid_user_comment");
         });
 
         modelBuilder.Entity<Post>(entity =>
@@ -60,8 +66,9 @@ public partial class PostgresContext : DbContext
             entity.Property(e => e.PkeyUuidPost)
                 .ValueGeneratedNever()
                 .HasColumnName("pkey_uuid_post");
+            entity.Property(e => e.Dislike).HasColumnName("dislike");
             entity.Property(e => e.FkeyUuidUser).HasColumnName("fkey_uuid_user");
-            entity.Property(e => e.IsIndexed).HasColumnName("isIndexed");
+            entity.Property(e => e.Like).HasColumnName("like");
             entity.Property(e => e.RegDate).HasColumnName("regDate");
             entity.Property(e => e.Title).HasColumnName("title");
 
@@ -76,12 +83,9 @@ public partial class PostgresContext : DbContext
 
             entity.ToTable("users");
 
-            entity.HasIndex(e => new { e.Uuid, e.IsIndexed }, "unq").IsUnique();
-
             entity.Property(e => e.Uuid)
                 .ValueGeneratedNever()
                 .HasColumnName("uuid");
-            entity.Property(e => e.IsIndexed).HasColumnName("isIndexed");
             entity.Property(e => e.Nickname).HasColumnName("nickname");
             entity.Property(e => e.Password).HasColumnName("password");
             entity.Property(e => e.RegDate).HasColumnName("regDate");

@@ -11,11 +11,17 @@ public partial class Comment
 
     public string? Description { get; set; }
 
-    public bool? IsIndexed { get; set; }
-
     public Guid? ParentComment { get; set; }
 
     public DateTime? RegDate { get; set; }
 
+    public short? Like { get; set; }
+
+    public short? Dislike { get; set; }
+
+    public Guid? FkeyUuidUser { get; set; }
+
     public virtual Post? FkeyUuidPostNavigation { get; set; }
+
+    public virtual User? FkeyUuidUserNavigation { get; set; }
 }

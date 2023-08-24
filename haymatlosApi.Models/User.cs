@@ -9,8 +9,6 @@ public partial class User
 
     public string? Nickname { get; set; }
 
-    public bool? IsIndexed { get; set; }
-
     public string? Password { get; set; }
 
     public string? Salt { get; set; }
@@ -20,6 +18,8 @@ public partial class User
     public string? Token { get; set; }
 
     public DateTime? RegDate { get; set; }
+
+    public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
 }

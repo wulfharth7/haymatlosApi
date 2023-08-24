@@ -38,7 +38,8 @@ public class ObjectFactoryPost<T> where T : Post, new()
     public T createPostObj(Guid userId, Post post)
     {
         _post.PkeyUuidPost = Guid.NewGuid();
-        _post.FkeyUuidUser = userId;
+        _post.FkeyUuidUser = userId; 
+        _post.RegDate = DateTime.UtcNow;
         _post.Title = post.Title;
         _post.IsIndexed = false;
 
@@ -58,6 +59,7 @@ public class ObjectFactoryComment<T> where T : Comment, new()
     {
         _comment.PkeyUuidComment = Guid.NewGuid();
         _comment.FkeyUuidPost = postId;
+        _comment.RegDate = DateTime.UtcNow;
         _comment.Description = comment.Description;
         _comment.IsIndexed = false;
         _comment.ParentComment = parentComment;
