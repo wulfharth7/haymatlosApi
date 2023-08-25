@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "L9h+FrLuf7uFibY2Jdy+yidC/Kp2ZoptzJh8VnW7oRLS7XxaZeGXQu0aUTwnB5dmG7UlhyMP9kysuNFILE2+Dw==",
+  "dgSpecHash": "2g0Bn3vLIKW9ViiYQa7EsHqEbXrOg+MRnlHFsDEaYMlZoxRb5rYjnb56gULZ0esJBsIC5GY6YJhPmDntyoKaLg==",
   "success": true,
   "projectFilePath": "C:\\Users\\BarisErgul\\source\\repos\\wulfharth7\\haymatlos_api\\haymatlosApi.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\BarisErgul\\.nuget\\packages\\elastic.clients.elasticsearch\\8.9.2\\elastic.clients.elasticsearch.8.9.2.nupkg.sha512",
+    "C:\\Users\\BarisErgul\\.nuget\\packages\\elastic.transport\\0.4.14\\elastic.transport.0.4.14.nupkg.sha512",
     "C:\\Users\\BarisErgul\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\BarisErgul\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.10\\microsoft.aspnetcore.authentication.jwtbearer.7.0.10.nupkg.sha512",
     "C:\\Users\\BarisErgul\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.9\\microsoft.aspnetcore.openapi.7.0.9.nupkg.sha512",

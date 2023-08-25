@@ -46,7 +46,7 @@ namespace haymatlosApi.Services
         {
             //ask if posts are needed for example.
             var user = await _context.Users.FindAsync(userId);
-            if(getPosts == true) user.Posts = (ICollection<Post>)await _postService.getPostsOfUser(userId, filter);            //this shouldn't be needed probably?, i think my schema is wrong? i have to double check this
+            if(getPosts == true) user.Posts = (ICollection<Post>)await _postService.getPostsOfUser(userId, filter);            //this shouldn't be needed probably?, i think my schema is wrong? i have to double check this - i checked a bit, i think i have to dig down to virtual navigation properties and lazy loading. will do.
             return user;
         }
 
@@ -85,7 +85,6 @@ namespace haymatlosApi.Services
             return null;
         }
 
-        //there has to be an authorization thing and stuff with jwt.
         //check how to use cancellation token.
         public async Task<string> loginUser(string username, string password)
         {
@@ -103,36 +102,6 @@ namespace haymatlosApi.Services
                 return string.Empty;
             }
 
-        }
-
-        public async Task getindx() //all of this will be moved to indexer service
-        {
-            var validFilter = new PaginationFilter();
-            var users = await _context.Users
-                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
-                .Take(validFilter.PageSize)
-                .ToListAsync();
-
-            var editedUsers = new List<User>();
-            foreach (var user in users)
-            {
-                var posts = await _context.Posts
-                    .Where(d => d.FkeyUuidUser.Equals(user.Uuid))
-                    .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
-                    .Take(validFilter.PageSize)
-                    .ToListAsync();
-
-                var editedPosts = new List<Post>();
-                foreach (var post in posts)
-                {
-                    editedPosts.Add(new Post { Title = post.Title, PkeyUuidPost = post.PkeyUuidPost });
-                }
-
-                editedUsers.Add(new User { Uuid = user.Uuid, Nickname = user.Nickname, Posts = editedPosts });
-            }
-            await JsonFileUtils.SimpleWrite(editedUsers);
-                 
-        }
-        
+        }       
     }
 }

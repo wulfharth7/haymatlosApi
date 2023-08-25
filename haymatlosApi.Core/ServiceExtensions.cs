@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using haymatlosApi.haymatlosApi.Utils;
 using System.Text.Json.Serialization;
 using haymatlosApi.haymatlosApi.Models;
+using haymatlosApi.haymatlosApi.ElasticSearch;
 
 namespace haymatlosApi.haymatlosApi.Core.Extensions
 {
@@ -58,6 +59,7 @@ namespace haymatlosApi.haymatlosApi.Core.Extensions
             services.AddScoped<tokenUtil>();
             services.AddScoped<PostService>();
             services.AddScoped<CommentService>();
+            services.AddScoped<IndexerService>();
         }
 
         public static void AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)

@@ -51,3 +51,6 @@ C:\Users\BarisErgul\source\repos\wulfharth7\haymatlos_api\obj\Debug\net7.0\refin
 C:\Users\BarisErgul\source\repos\wulfharth7\haymatlos_api\obj\Debug\net7.0\haymatlosApi.pdb
 C:\Users\BarisErgul\source\repos\wulfharth7\haymatlos_api\obj\Debug\net7.0\haymatlosApi.genruntimeconfig.cache
 C:\Users\BarisErgul\source\repos\wulfharth7\haymatlos_api\obj\Debug\net7.0\ref\haymatlosApi.dll
+C:\Users\BarisErgul\source\repos\wulfharth7\haymatlos_api\bin\Debug\net7.0\jsonfile.json
+C:\Users\BarisErgul\source\repos\wulfharth7\haymatlos_api\bin\Debug\net7.0\Elastic.Clients.Elasticsearch.dll
+C:\Users\BarisErgul\source\repos\wulfharth7\haymatlos_api\bin\Debug\net7.0\Elastic.Transport.dll

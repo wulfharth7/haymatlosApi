@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v7.0": {
       "haymatlosApi/1.0.0": {
         "dependencies": {
+          "Elastic.Clients.Elasticsearch": "8.9.2",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "7.0.10",
           "Microsoft.AspNetCore.OpenApi": "7.0.9",
           "Microsoft.EntityFrameworkCore.Design": "7.0.10",
@@ -21,6 +22,25 @@
         },
         "runtime": {
           "haymatlosApi.dll": {}
+        }
+      },
+      "Elastic.Clients.Elasticsearch/8.9.2": {
+        "dependencies": {
+          "Elastic.Transport": "0.4.14"
+        },
+        "runtime": {
+          "lib/net6.0/Elastic.Clients.Elasticsearch.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.9.2.0"
+          }
+        }
+      },
+      "Elastic.Transport/0.4.14": {
+        "runtime": {
+          "lib/net6.0/Elastic.Transport.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.4.14.0"
+          }
         }
       },
       "Humanizer.Core/2.14.1": {
@@ -398,6 +418,20 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Elastic.Clients.Elasticsearch/8.9.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-SZACNtpuIJZJJcPacGoYmnXynz+ybBjh74ADPjUdWuq84LKEmynsHD4jwpexH3Gkwiw38oEFjNOPIg7vpXqNSQ==",
+      "path": "elastic.clients.elasticsearch/8.9.2",
+      "hashPath": "elastic.clients.elasticsearch.8.9.2.nupkg.sha512"
+    },
+    "Elastic.Transport/0.4.14": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-VjfChM++MnfljqKnCN75h2huIlg7HkUgrc4VyLh8HMyMKPxaK9LrxbUH8xeDm7bIqEd/qSCeujatfwhfYEhD6w==",
+      "path": "elastic.transport/0.4.14",
+      "hashPath": "elastic.transport.0.4.14.nupkg.sha512"
     },
     "Humanizer.Core/2.14.1": {
       "type": "package",
