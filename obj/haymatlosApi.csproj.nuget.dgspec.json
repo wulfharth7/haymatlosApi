@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\BarisErgul\\source\\repos\\wulfharth7\\haymatlos_api\\haymatlosApi.csproj": {}
+    "C:\\Users\\Bariscan\\source\\repos\\wulfharth7\\haymatlosApi\\haymatlosApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\BarisErgul\\source\\repos\\wulfharth7\\haymatlos_api\\haymatlosApi.csproj": {
+    "C:\\Users\\Bariscan\\source\\repos\\wulfharth7\\haymatlosApi\\haymatlosApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\BarisErgul\\source\\repos\\wulfharth7\\haymatlos_api\\haymatlosApi.csproj",
+        "projectUniqueName": "C:\\Users\\Bariscan\\source\\repos\\wulfharth7\\haymatlosApi\\haymatlosApi.csproj",
         "projectName": "haymatlosApi",
-        "projectPath": "C:\\Users\\BarisErgul\\source\\repos\\wulfharth7\\haymatlos_api\\haymatlosApi.csproj",
-        "packagesPath": "C:\\Users\\BarisErgul\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\BarisErgul\\source\\repos\\wulfharth7\\haymatlos_api\\obj\\",
+        "projectPath": "C:\\Users\\Bariscan\\source\\repos\\wulfharth7\\haymatlosApi\\haymatlosApi.csproj",
+        "packagesPath": "C:\\Users\\Bariscan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Bariscan\\source\\repos\\wulfharth7\\haymatlosApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\BarisErgul\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Bariscan\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,7 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\sdk\\7.0.306\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
+          "C:\\Program Files\\dotnet\\sdk\\7.0.302\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -69,6 +69,10 @@
               "target": "Package",
               "version": "[2.2.8, )"
             },
+            "NEST": {
+              "target": "Package",
+              "version": "[7.17.5, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
@@ -109,7 +113,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }
