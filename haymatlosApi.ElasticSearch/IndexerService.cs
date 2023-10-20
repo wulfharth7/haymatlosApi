@@ -66,7 +66,7 @@ namespace haymatlosApi.haymatlosApi.ElasticSearch
 }
 //https://www.elastic.co/guide/en/kibana/current/data-views.html
 //https://stackoverflow.com/questions/15936616/import-index-a-json-file-into-elasticsearch
-//      curl -X POST --insecure -u "elastic:gx8K88YIQijE7M4X6tWd" "https://localhost:9200/test_index/_bulk" -H "Content-Type: application/json" --data-binary "@jsonfile.json"
+//      curl -X POST --insecure -u "elastic:IBM=5L-kCO79sYb28NLV" "https://localhost:9200/test_index/_bulk" -H "Content-Type: application/json" --data-binary "@jsonfile.json"
 //i'll also optimize this place and wont use this cmd command.
 //this was fucking tiring but really was worth it. im kinda understanding it now.
 //for elastic search. i created index with tis bcs array of objs aren't acepted so i nested em.

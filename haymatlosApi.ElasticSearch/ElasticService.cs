@@ -1,7 +1,6 @@
 ﻿using Elastic.Clients.Elasticsearch;
 using Elastic.Transport;
-using haymatlosApi.haymatlosApi.Models;
-using Nest;
+
 
 namespace haymatlosApi.haymatlosApi.ElasticSearch
 {
@@ -25,35 +24,56 @@ namespace haymatlosApi.haymatlosApi.ElasticSearch
         {
             var settings = new ElasticsearchClientSettings(new Uri("https://localhost:9200"))
                             .CertificateFingerprint("517065d9abea1d88208cb6755f187e53110d4fb70da35f53b3d4214e84dd3de9")
-                            .Authentication(new BasicAuthentication("elastic", "IBM=5L-kCO79sYb28NLV"));
+                            .Authentication(new BasicAuthentication("elastic", "IBM=5L-kCO79sYb28NLV")) ;
 
             var client = new ElasticsearchClient(settings);
             _client = client;
         }
-
-        public async Task<List<Document>> fullTextSearch(string indexName, string searchText)
+    
+        public async Task/*<IReadOnlyCollection<Document>>*/ fullTextSearch(string indexName, string searchText, int page = 1, int pageSize = 5)
         {
             var searchResponse = await _client.SearchAsync<Document>(s => s
                 .Index(indexName)
+                .From((page - 1) * pageSize)
+                .Size(pageSize)
                 .Query(q => q
-                    .Nested(n => n
-                        .Path(p => p.Posts)
-                        .Query(nq => nq
-                            .Match(m => m
-                                .Field(f => f.Posts[0].Title)
-                                .Query(searchText)
-                            )
-                        )
+                    .Match(m => m
+                        .Field(f => f.Nickname) // Change 'Nickname' to the name of your field to search
+                        .Query(searchText)
                     )
                 )
             );
 
-            if (searchResponse != null)
-            {
-                return searchResponse.Documents.ToList();
-            }
+            var documents = searchResponse.Documents.ToList();
+            Console.WriteLine( documents.Count );
 
-            return new List<Document>();
+
+
+
+
+
+            /* var searchResponse = await _client.SearchAsync<Document>(s => s
+                 .Index(indexName)
+                 .Query(q => q
+                     .Nested(n => n
+                         .Path(p => p.Posts)
+                         .Query(nq => nq
+                             .Match(m => m
+                                 .Field(f => f.Posts[0].Title)
+                                 .Query(searchText)
+                             )
+                         )
+                     )
+                 )
+             );
+
+             if (searchResponse != null)
+             {
+                 Console.WriteLine(searchResponse);
+                 return searchResponse.Documents.ToList();
+             }
+
+             return new List<Document>();*/
         }
     }
 }
