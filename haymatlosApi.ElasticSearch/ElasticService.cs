@@ -1,6 +1,6 @@
 ﻿using Elastic.Clients.Elasticsearch;
 using Elastic.Transport;
-
+using Nest;
 
 namespace haymatlosApi.haymatlosApi.ElasticSearch
 {
@@ -24,23 +24,24 @@ namespace haymatlosApi.haymatlosApi.ElasticSearch
         {
             var settings = new ElasticsearchClientSettings(new Uri("https://localhost:9200"))
                             .CertificateFingerprint("517065d9abea1d88208cb6755f187e53110d4fb70da35f53b3d4214e84dd3de9")
-                            .Authentication(new BasicAuthentication("elastic", "IBM=5L-kCO79sYb28NLV")) ;
+                            .Authentication(new BasicAuthentication("elastic", "IBM=5L-kCO79sYb28NLV"))
+                            .DefaultIndex("test_index");
 
             var client = new ElasticsearchClient(settings);
             _client = client;
         }
     
-        public async Task/*<IReadOnlyCollection<Document>>*/ fullTextSearch(string indexName, string searchText, int page = 1, int pageSize = 5)
+        public async Task<IReadOnlyCollection<Document>> fullTextSearch(string indexName, string searchText, int page = 1, int pageSize = 5)
         {
+           Elastic.Clients.Elasticsearch.Fuzziness fuz = new Elastic.Clients.Elasticsearch.Fuzziness("auto");
             var searchResponse = await _client.SearchAsync<Document>(s => s
-             .Index(indexName)
                 .Query(q => q
                     .Bool(b => b
                         .Should(sh => sh
                             .MultiMatch(mm => mm
                                 .Query(searchText)
                                 .Fields("Nickname")
-                                /*.Fuzziness(Fuzziness.Auto)*/
+                                .Fuzziness(fuz)
                             ),
                             sh => sh
                                 .Nested(n => n
@@ -57,9 +58,7 @@ namespace haymatlosApi.haymatlosApi.ElasticSearch
                 )
             );
             var documents = searchResponse.Documents.ToList();
-            Console.WriteLine(documents.Count);
-
-
+            return documents;
         }
     }
 

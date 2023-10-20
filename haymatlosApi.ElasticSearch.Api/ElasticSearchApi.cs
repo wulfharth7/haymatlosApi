@@ -26,9 +26,9 @@ namespace haymatlosApi.haymatlosApi.ElasticSearch.Api
 
         [HttpGet("fullTextSearch")]
         [Authorize(Roles = "user")]
-        public async Task/*<IReadOnlyCollection<Document>>*/ fullTextSearch(string searchQuery)
+        public async Task<IReadOnlyCollection<Document>> fullTextSearch(string searchQuery)
         {
-            await _elasticService.fullTextSearch("asd",searchQuery);
+            return await _elasticService.fullTextSearch("test_index",searchQuery);
         }
     }
 }
