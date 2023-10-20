@@ -33,47 +33,61 @@ namespace haymatlosApi.haymatlosApi.ElasticSearch
         public async Task/*<IReadOnlyCollection<Document>>*/ fullTextSearch(string indexName, string searchText, int page = 1, int pageSize = 5)
         {
             var searchResponse = await _client.SearchAsync<Document>(s => s
-                .Index(indexName)
-                .From((page - 1) * pageSize)
-                .Size(pageSize)
+             .Index(indexName)
                 .Query(q => q
-                    .Match(m => m
-                        .Field(f => f.Nickname) // Change 'Nickname' to the name of your field to search
-                        .Query(searchText)
+                    .Bool(b => b
+                        .Should(sh => sh
+                            .MultiMatch(mm => mm
+                                .Query(searchText)
+                                .Fields("Nickname")
+                                /*.Fuzziness(Fuzziness.Auto)*/
+                            ),
+                            sh => sh
+                                .Nested(n => n
+                                    .Path("Posts")
+                                    .Query(nq => nq
+                                        .MultiMatch(m => m
+                                            .Query(searchText)
+                                            .Fields("Posts.Title")
+                                        )
+                                    )
+                                )
+                        )
                     )
                 )
             );
-
             var documents = searchResponse.Documents.ToList();
-            Console.WriteLine( documents.Count );
+            Console.WriteLine(documents.Count);
 
 
-
-
-
-
-            /* var searchResponse = await _client.SearchAsync<Document>(s => s
-                 .Index(indexName)
-                 .Query(q => q
-                     .Nested(n => n
-                         .Path(p => p.Posts)
-                         .Query(nq => nq
-                             .Match(m => m
-                                 .Field(f => f.Posts[0].Title)
-                                 .Query(searchText)
-                             )
-                         )
-                     )
-                 )
-             );
-
-             if (searchResponse != null)
-             {
-                 Console.WriteLine(searchResponse);
-                 return searchResponse.Documents.ToList();
-             }
-
-             return new List<Document>();*/
         }
     }
+
+    /*POST /test_index/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "multi_match": {
+            "query": "barisca",
+            "fields": ["Nickname"],
+            "fuzziness": "AUTO"
+          }
+        },
+        {
+          "nested": {
+            "path": "Posts",
+            "query": {
+              "multi_match": {
+                "query": "Dünyasında",
+                "fields": ["Posts.Title"]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}*/
 }
