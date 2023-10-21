@@ -25,7 +25,9 @@ namespace haymatlosApi.haymatlosApi.ElasticSearch
             var settings = new ElasticsearchClientSettings(new Uri("https://localhost:9200"))
                             .CertificateFingerprint("517065d9abea1d88208cb6755f187e53110d4fb70da35f53b3d4214e84dd3de9")
                             .Authentication(new BasicAuthentication("elastic", "IBM=5L-kCO79sYb28NLV"))
-                            .DefaultIndex("test_index");
+                            .DefaultIndex("test_index")
+                            .DefaultFieldNameInferrer(p => p); //elastic was returning null values, after using this setting it got fixed.
+                                                               //https://stackoverflow.com/questions/67652669/elastic-seacrh-net-returning-null-values
 
             var client = new ElasticsearchClient(settings);
             _client = client;
