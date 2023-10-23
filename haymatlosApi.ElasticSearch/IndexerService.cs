@@ -35,15 +35,28 @@ namespace haymatlosApi.haymatlosApi.ElasticSearch
                     .Where(d => d.FkeyUuidUser.Equals(user.Uuid))
                     .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                     .Take(validFilter.PageSize)
-                    .ToListAsync();// this should iterate the whole posts later. the comments dont work yet.
+                    .ToListAsync();
 
                 var editedPosts = new List<Post>();
                 foreach (var post in posts)
                 {
                     editedPosts.Add(new Post { Title = post.Title, PkeyUuidPost = post.PkeyUuidPost });
                 }
+                
+                var comments = await _context.Comments
+                    .Where(d => d.FkeyUuidUser.Equals(user.Uuid))
+                    .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                    .Take(validFilter.PageSize)
+                    .ToListAsync();
 
-                editedUsers.Add(new User { Uuid = user.Uuid, Nickname = user.Nickname, Posts = editedPosts });
+                var editedComments = new List<Comment>();
+                foreach (var comment in comments)
+                {
+                    editedComments.Add(new Comment { Description = comment.Description, PkeyUuidComment = comment.PkeyUuidComment });
+                }
+
+
+                editedUsers.Add(new User { Uuid = user.Uuid, Nickname = user.Nickname, Posts = editedPosts, Comments = editedComments });
             }
             await SimpleWrite(editedUsers);
         }

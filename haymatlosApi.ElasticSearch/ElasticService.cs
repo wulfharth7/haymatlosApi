@@ -35,7 +35,7 @@ namespace haymatlosApi.haymatlosApi.ElasticSearch
     
         public async Task<IReadOnlyCollection<Document>> fullTextSearch(string indexName, string searchText, int page = 1, int pageSize = 5)
         {
-           Elastic.Clients.Elasticsearch.Fuzziness fuz = new Elastic.Clients.Elasticsearch.Fuzziness("auto");
+           Elastic.Clients.Elasticsearch.Fuzziness fuz = new Elastic.Clients.Elasticsearch.Fuzziness("auto"); //need this to be high.
             var searchResponse = await _client.SearchAsync<Document>(s => s
                 .Query(q => q
                     .Bool(b => b
