@@ -10,6 +10,7 @@ using haymatlosApi.haymatlosApi.Utils;
 using System.Text.Json.Serialization;
 using haymatlosApi.haymatlosApi.Models;
 using haymatlosApi.haymatlosApi.ElasticSearch;
+using haymatlosApi.haymatlosApi.Utils.Pagination;
 
 namespace haymatlosApi.haymatlosApi.Core.Extensions
 {
@@ -62,7 +63,18 @@ namespace haymatlosApi.haymatlosApi.Core.Extensions
             services.AddScoped<IndexerService>();
             services.AddSingleton<ElasticService>();
         }
-
+        public static void AddPaginationLinkCreatorService(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddHttpContextAccessor();
+            services.AddSingleton<UriService>(o =>
+            {
+                var accessor = o.GetRequiredService<IHttpContextAccessor>();
+                var request = accessor.HttpContext.Request;
+                var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
+                return new UriService(uri);
+            });
+            services.AddControllers();
+        }
         public static void AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             var key = Encoding.ASCII.GetBytes("this_will_also_change_later");

@@ -19,18 +19,20 @@ namespace haymatlosApi.Services
         private readonly PostgresContext _context;
         private readonly PostService _postService;
         private readonly tokenUtil _tokenUtil;
+        private readonly UriService _uriService;
         private readonly CommentService _commentService;
         private readonly string passwordSalt = PasswordHashing.GenerateSalt();
 
-        public UserService(PostgresContext postgresContext, tokenUtil tokenutil, PostService postservice, CommentService commentservice)
+        public UserService(PostgresContext postgresContext, tokenUtil tokenutil, PostService postservice, CommentService commentservice, UriService uriService)
         {
-            _context = postgresContext; 
+            _context = postgresContext;
             _tokenUtil = tokenutil;
             _postService = postservice;
             _commentService = commentservice;
-        } 
+            _uriService = uriService;
+        }
 
-        public async Task<PaginatedResponse<IEnumerable<User>>> getUsers(PaginationFilter filter)
+        public async Task<PaginatedResponse<IEnumerable<User>>> getUsers(PaginationFilter filter, string route)
         {
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
             var pagedUserData = await _context.Users
@@ -38,15 +40,15 @@ namespace haymatlosApi.Services
                 .Take(validFilter.PageSize)
                 .ToListAsync();
             var totalRecords = await _context.Users.CountAsync();
-
-            return new PaginatedResponse<IEnumerable<User>>(pagedUserData, validFilter.PageNumber, validFilter.PageSize, totalRecords);
+            var pagedResponse = PaginationHelper.CreatePagedReponse<User>(pagedUserData, validFilter, totalRecords, _uriService, route);
+            return pagedResponse;
         }
 
-        public async Task<User> getUserById(Guid userId, bool getPosts = false, PaginationFilter filter = null)
+        public async Task<User> getUserById(Guid userId, string route, bool getPosts = false, PaginationFilter filter = null)
         {
             //ask if posts are needed for example.
             var user = await _context.Users.FindAsync(userId);
-            if(getPosts == true) user.Posts = (ICollection<Post>)await _postService.getPostsOfUser(userId, filter);            //this shouldn't be needed probably?, i think my schema is wrong? i have to double check this - i checked a bit, i think i have to dig down to virtual navigation properties and lazy loading. will do.
+            if(getPosts == true) user.Posts = (ICollection<Post>)await _postService.getPostsOfUser(userId, filter, route!);            //this shouldn't be needed probably?, i think my schema is wrong? i have to double check this - i checked a bit, i think i have to dig down to virtual navigation properties and lazy loading. will do.
             return user;
         }
 

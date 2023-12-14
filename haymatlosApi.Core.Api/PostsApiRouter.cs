@@ -18,7 +18,8 @@ namespace haymatlosApi.Controllers
         [AllowAnonymous]
         public async Task<PaginatedResponse<IEnumerable<Post>>> getPostsOfUser(Guid userId, [FromQuery] PaginationFilter filter)
         {
-            return await _postService.getPostsOfUser(userId, filter);
+            var route = Request.Path.Value;
+            return await _postService.getPostsOfUser(userId, filter, route!); //not sure if this should be nullable or not.
         } 
 
         //POST:

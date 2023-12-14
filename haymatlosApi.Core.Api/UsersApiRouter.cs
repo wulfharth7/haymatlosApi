@@ -22,15 +22,17 @@ namespace haymatlosApi.Controllers
         [Authorize(Roles = "user")]
         [HttpGet] 
         public async Task<PaginatedResponse<IEnumerable<User>>> getUsers([FromQuery] PaginationFilter filter) 
-        { 
-            return await _userService.getUsers(filter); 
+        {
+            var route = Request.Path.Value;
+            return await _userService.getUsers(filter, route!); 
         }
 
         [HttpGet("id")] 
         [Authorize(Roles = "user")]
         public async Task<User> getUserById(Guid userId, bool getPosts = false)
         {
-            return await _userService.getUserById(userId, getPosts);
+            var route = Request.Path.Value;
+            return await _userService.getUserById(userId, route!, getPosts);
         }
 
         //POST: 

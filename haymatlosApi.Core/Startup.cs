@@ -18,6 +18,7 @@ namespace haymatlosApi.haymatlosApi.Core
             services.AddDbContext(Configuration);
             services.AddScopedServices();
             services.AddJwtAuthentication(Configuration);
+            services.AddPaginationLinkCreatorService(Configuration);
             services.AddAuthorization();
             services.AddJsonSerializer(Configuration);
             services.AddEndpointsApiExplorer();

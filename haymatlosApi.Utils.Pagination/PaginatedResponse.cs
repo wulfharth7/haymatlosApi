@@ -12,7 +12,7 @@ namespace haymatlosApi.haymatlosApi.Utils.Pagination
         public int TotalRecords { get; set; }
         public Uri NextPage { get; set; }
         public Uri PreviousPage { get; set; }
-        public PaginatedResponse(T data, int pageNumber, int pageSize, int totalRecords)
+        public PaginatedResponse(T data, int pageNumber, int pageSize)
         {
             PageNumber = pageNumber;
             PageSize = pageSize;
@@ -20,7 +20,6 @@ namespace haymatlosApi.haymatlosApi.Utils.Pagination
             Message = null;
             Succeeded = true;
             Errors = null;
-            TotalRecords = totalRecords;
         }
     }
 }
