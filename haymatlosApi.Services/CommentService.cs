@@ -36,5 +36,11 @@ namespace haymatlosApi.Services
             var comments = await _context.Comments.Where(id => id.FkeyUuidUser.Equals(userId)).ToListAsync();
             return comments;
         }
+
+        public async Task<IEnumerable<Comment>> getPostComments(Guid PostId)
+        {
+            var comments = await _context.Comments.Where(id => id.FkeyUuidPost.Equals(PostId) && id.ParentComment == null).ToListAsync();
+            return comments;
+        }
     }
 }
