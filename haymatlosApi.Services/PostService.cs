@@ -27,6 +27,18 @@ namespace haymatlosApi.Services
             return post1;
         }
 
+        public async Task<PaginatedResponse<IEnumerable<Post>>> getPosts(PaginationFilter filter, string route)
+        {
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+            var pagedPostData = await _context.Posts
+                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
+                .ToListAsync();
+            var totalRecords = await _context.Posts.CountAsync();
+            var pagedReponse = PaginationHelper.CreatePagedReponse<Post>(pagedPostData, validFilter, totalRecords, _uriService, route);
+            return pagedReponse;
+        }
+
         public async Task<PaginatedResponse<IEnumerable<Post>>> getPostsOfUser(Guid userId, PaginationFilter filter, string route)
         {
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);

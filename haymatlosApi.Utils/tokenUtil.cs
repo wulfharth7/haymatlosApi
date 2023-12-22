@@ -9,7 +9,7 @@ namespace haymatlosApi.haymatlosApi.Utils
 {
     public class tokenUtil
     {
-        public async Task<User> createToken(/*JwtSecurityTokenHandler tokenHandler,*/ User user)
+        public async Task<string /*User*/> createToken(/*JwtSecurityTokenHandler tokenHandler,*/ User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("this_will_also_change_later");   //a config is needed for this.
@@ -28,7 +28,7 @@ namespace haymatlosApi.haymatlosApi.Utils
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             user.Token = tokenHandler.WriteToken(token);
-            return user;
+            return user.Token;
         }
     }
 }

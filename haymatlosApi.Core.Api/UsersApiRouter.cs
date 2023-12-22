@@ -3,6 +3,7 @@ using haymatlosApi.haymatlosApi.Utils;
 using haymatlosApi.haymatlosApi.Utils.Pagination;
 using haymatlosApi.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections;
@@ -38,9 +39,9 @@ namespace haymatlosApi.Controllers
         //POST: 
         [AllowAnonymous]
         [HttpPost] 
-        public async Task addUser(string nickname, string password) 
+        public async Task<bool> addUser(string nickname, string password) 
         { 
-            await _userService.registerUser(nickname, password); 
+            return await _userService.registerUser(nickname, password); 
         }
 
         //UPDATE:
@@ -62,10 +63,10 @@ namespace haymatlosApi.Controllers
         //LOGIN
         [AllowAnonymous]
         [HttpGet("login")]
-        public async Task<HttpResponseMessage> loginUser(string nickname, string password)
+        public async Task<string> loginUser(string nickname, string password)
         {
-           var token = await _userService.loginUser(nickname, password);
-           return await NullChecker.IsNullOrUndefinedAsync(token);
+           return await _userService.loginUser(nickname, password);
+          /* return await NullChecker.IsNullOrUndefinedAsync(token);*/
         }
     }
 }

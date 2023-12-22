@@ -14,13 +14,30 @@ namespace haymatlosApi.Controllers
         readonly PostService _postService;
         public PostsApiRouter(PostService postService) => _postService = postService;
 
-        [HttpGet]
+        [HttpGet("id")]
         [AllowAnonymous]
         public async Task<PaginatedResponse<IEnumerable<Post>>> getPostsOfUser(Guid userId, [FromQuery] PaginationFilter filter)
         {
             var route = Request.Path.Value;
             return await _postService.getPostsOfUser(userId, filter, route!); //not sure if this should be nullable or not.
-        } 
+        }
+
+        //GET
+        [HttpGet]
+        [Authorize(Roles = "user")] 
+        public async Task<PaginatedResponse<IEnumerable<Post>>> getPosts([FromQuery] PaginationFilter filter)
+        {
+            var route = Request.Path.Value;
+            return await _postService.getPosts(filter, route);
+            //TO DO algorithm needed here for the main page.
+
+            //TO DO algorithm needed here for the main page.
+
+            //TO DO algorithm needed here for the main page.
+        }
+
+        //get posts by category
+
 
         //POST:
         [HttpPost]

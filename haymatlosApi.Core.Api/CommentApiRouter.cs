@@ -44,7 +44,7 @@ namespace haymatlosApi.Controllers
             //service already ready. call it here.
         }*/
 
-        [HttpPut]
+        [HttpDelete]
         [Authorize(Roles = "admin,user")]
         public async Task deleteComment(Guid commentId)
         {

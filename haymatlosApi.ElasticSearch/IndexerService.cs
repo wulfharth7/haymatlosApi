@@ -1,10 +1,7 @@
 ﻿using haymatlosApi.haymatlosApi.Models;
 using haymatlosApi.haymatlosApi.Utils.Pagination;
-using haymatlosApi.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace haymatlosApi.haymatlosApi.ElasticSearch
 {
@@ -17,7 +14,7 @@ namespace haymatlosApi.haymatlosApi.ElasticSearch
         private PostgresContext _context;
         public IndexerService(PostgresContext postgresContext)
         {
-            _context = postgresContext;
+            _context = postgresContext; 
         }
         public async Task indexData() //this service is used to put all data into a json file so i can use it with elastic service
                                       //of course it only works with small data right now. big data would crush this down into pieces. i'll improve it later after i get a better grasp on elastic.

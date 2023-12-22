@@ -52,12 +52,19 @@ namespace haymatlosApi.Services
             return user;
         }
 
-        public async Task registerUser(string nickname, string password)
+        public async Task<bool> registerUser(string nickname, string password) //maybe email
         {
-            var user = new ObjectFactoryUser<User>().createUserObj(nickname,password,passwordSalt);                            //null checker will do more stuff here.
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
-            Console.WriteLine(user);
+            try 
+            {
+                var user = new ObjectFactoryUser<User>().createUserObj(nickname, password, passwordSalt);                            //null checker will do more stuff here.
+                await _context.Users.AddAsync(user);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch 
+            {
+                return false;
+            }
         }
 
         public async Task<object?> updateuser(Guid uuid, User newUser)
@@ -95,9 +102,12 @@ namespace haymatlosApi.Services
             var passwordHash = PasswordHashing.ComputeHash(password, user.Salt);
             if (user.Password == passwordHash)
             {
-                var newUser = await _tokenUtil.createToken(user);
+                /*var newUser = await _tokenUtil.createToken(user);
                 await updateuser(user.Uuid, newUser);
-                return newUser.Token;
+                return newUser.Token;*/
+
+                return await _tokenUtil.createToken(user);
+              
             }
             else
             {

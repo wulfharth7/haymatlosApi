@@ -22,6 +22,7 @@ namespace haymatlosApi.haymatlosApi.Core
             services.AddAuthorization();
             services.AddJsonSerializer(Configuration);
             services.AddEndpointsApiExplorer();
+            services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -34,6 +35,9 @@ namespace haymatlosApi.haymatlosApi.Core
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors(
+                options => options.AllowAnyOrigin().AllowAnyMethod()
+            );
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>

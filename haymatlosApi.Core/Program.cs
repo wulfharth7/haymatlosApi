@@ -5,6 +5,11 @@ using Microsoft.Extensions.Hosting;
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureWebHostDefaults(webBuilder =>
     {
+        //for LAN ip, not sure about this, will check it later
+        webBuilder.UseKestrel();
+        webBuilder.UseIIS();
+        webBuilder.UseUrls("https://*:7090");
+        //for LAN ip, not sure about this, will check it later
         webBuilder.UseStartup<Startup>();
     })
     .Build();
