@@ -39,6 +39,9 @@ public class ObjectFactoryPost<T> where T : Post, new()
         _post.PkeyUuidPost = Guid.NewGuid();
         _post.FkeyUuidUser = userId;
         _post.Like = 0;
+        _post.imageUrl = post.imageUrl ?? string.Empty;
+        _post.content = post.content ?? string.Empty;
+        _post.category = post.category ?? string.Empty;
         _post.Dislike = 0;
         _post.RegDate = DateTime.UtcNow;
         _post.Title = post.Title; 
