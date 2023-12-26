@@ -14,7 +14,7 @@ namespace haymatlosApi.Controllers
         readonly PostService _postService;
         public PostsApiRouter(PostService postService) => _postService = postService;
 
-        [HttpGet("id")]
+        [HttpGet("userid")]
         [AllowAnonymous]
         public async Task<PaginatedResponse<IEnumerable<Post>>> getPostsOfUser(Guid userId, [FromQuery] PaginationFilter filter)
         {
@@ -36,15 +36,20 @@ namespace haymatlosApi.Controllers
             //TO DO algorithm needed here for the main page.
         }
 
-        //get posts by category
-
-
         //POST:
         [HttpPost]
         [Authorize(Roles = "user")]
         public async Task<Post> createPost(Guid userId, Post post)
         {
             return await _postService.createPost(userId, post);
+        }
+
+        [HttpGet("category")]
+        [Authorize(Roles = "user")]
+        public async Task<PaginatedResponse<IEnumerable<Post>>> getPostsOfACategory(string category, [FromQuery] PaginationFilter filter)
+        {
+            var route = Request.Path.Value;
+            return await _postService.getPostsOfACategory(category, filter, route!);
         }
 
         [HttpDelete]

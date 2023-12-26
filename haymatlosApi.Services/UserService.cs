@@ -1,17 +1,10 @@
-﻿using haymatlosApi.haymatlosApi.ElasticSearch;
-using haymatlosApi.haymatlosApi.Models;
+﻿using haymatlosApi.haymatlosApi.Models;
 using haymatlosApi.haymatlosApi.Utils;
 using haymatlosApi.haymatlosApi.Utils.Pagination;
 using haymatlosApi.Utils;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Runtime.CompilerServices;
-using System.Security.Claims;
-using System.Text;
 // e1705d38-1b60-43df-ba64-af205dd8205e
+
 namespace haymatlosApi.Services
 {
     public class UserService
@@ -54,38 +47,46 @@ namespace haymatlosApi.Services
 
         public async Task<bool> registerUser(string nickname, string password) //maybe email
         {
-            try 
-            {
-                var user = new ObjectFactoryUser<User>().createUserObj(nickname, password, passwordSalt);                            //null checker will do more stuff here.
-                await _context.Users.AddAsync(user);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch 
+            var userExists = await _context.Users.Where(d => d.Nickname.Equals(nickname)).FirstOrDefaultAsync();
+            if (userExists != null)
             {
                 return false;
             }
+            else
+            {
+                try 
+                {
+                    var user = new ObjectFactoryUser<User>().createUserObj(nickname, password, passwordSalt);                            //null checker will do more stuff here.
+                    await _context.Users.AddAsync(user);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                catch 
+                {
+                    return false;
+                }
+            }
         }
 
-        public async Task<object?> updateuser(Guid uuid, User newUser)
+        public async Task<User> updateuser(Guid uuid, User newUser)
         {
-            var user = await _context.Users.FindAsync(uuid);
-            if (!NullChecker.IsNull(user))
+            var user = await _context.Users.Where(d => d.Uuid.Equals(uuid)).FirstOrDefaultAsync();
+           /* if (!NullChecker.IsNull(user))
             {
                 return null;
-            }
+            }*/
             user.Nickname = newUser.Nickname; //this should go into the object factory too.
             user.Password = newUser.Password;
             user.Role = newUser.Role;
             user.Token = newUser.Token;
             await _context.SaveChangesAsync();
-            return user;
+            return new User { Uuid = user.Uuid, Nickname = user.Nickname, Role = user.Role, Token = user.Token};
         }
 
         public async Task<object?> deleteUser(Guid pkey_uuid)
         {
             var user = await _context.Users.Where(d => d.Uuid.Equals(pkey_uuid)).FirstOrDefaultAsync();
-            if(!NullChecker.IsNull(user))
+            if (!NullChecker.IsNull(user))
             {
                 _context.Users.Remove(user);    //isnt this blocking a thread?
                 await _context.SaveChangesAsync();
@@ -95,23 +96,20 @@ namespace haymatlosApi.Services
         }
 
         //check how to use cancellation token.
-        public async Task<string> loginUser(string username, string password)
+        public async Task<User> loginUser(string username, string password)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Nickname == username);
             //check null
             var passwordHash = PasswordHashing.ComputeHash(password, user.Salt);
             if (user.Password == passwordHash)
             {
-                /*var newUser = await _tokenUtil.createToken(user);
-                await updateuser(user.Uuid, newUser);
-                return newUser.Token;*/
-
-                return await _tokenUtil.createToken(user);
-              
+                var token = await _tokenUtil.createToken(user);
+                user.Token = token;
+                return await updateuser(user.Uuid, user);
             }
             else
             {
-                return string.Empty;
+                return new User { };
             }
 
         }       
