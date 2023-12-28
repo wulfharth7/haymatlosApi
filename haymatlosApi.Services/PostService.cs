@@ -15,6 +15,7 @@ namespace haymatlosApi.Services
             _context = postgresContext;
             _uriService = service;
         }
+
         public async Task<Post> createPost(Guid userId, Post post)
         {
             var post1 = new ObjectFactoryPost<Post>().createPostObj(userId, post);

@@ -36,7 +36,7 @@ namespace haymatlosApi.haymatlosApi.Core
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors(
-                options => options.AllowAnyOrigin().AllowAnyMethod()
+                options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
             );
             app.UseAuthentication();
             app.UseAuthorization();

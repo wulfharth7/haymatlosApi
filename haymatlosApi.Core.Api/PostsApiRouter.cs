@@ -39,7 +39,7 @@ namespace haymatlosApi.Controllers
         //POST:
         [HttpPost]
         [Authorize(Roles = "user")]
-        public async Task<Post> createPost(Guid userId, Post post)
+        public async Task<Post> createPost(Guid userId, [FromBody] Post post)
         {
             return await _postService.createPost(userId, post);
         }

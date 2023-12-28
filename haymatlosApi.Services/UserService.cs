@@ -56,7 +56,7 @@ namespace haymatlosApi.Services
             {
                 try 
                 {
-                    var user = new ObjectFactoryUser<User>().createUserObj(nickname, password, passwordSalt);                            //null checker will do more stuff here.
+                    var user = new ObjectFactoryUser<User>().createUserObj(nickname, password, passwordSalt); //null checker will do more stuff here.
                     await _context.Users.AddAsync(user);
                     await _context.SaveChangesAsync();
                     return true;
