@@ -26,10 +26,10 @@ namespace haymatlosApi.Controllers
 
         [HttpGet("id")] 
         [Authorize(Roles = "user")]
-        public async Task<User> getUserById(Guid userId, bool getPosts = false)
+        public async Task<User> getUserById(Guid userId, [FromQuery]PaginationFilter filter, bool getPosts = false)
         {
             var route = Request.Path.Value;
-            return await _userService.getUserById(userId, route!, getPosts);
+            return await _userService.getUserById(userId, route!, filter, getPosts);
         }
 
         //POST: 

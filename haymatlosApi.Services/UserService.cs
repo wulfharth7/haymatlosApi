@@ -37,11 +37,12 @@ namespace haymatlosApi.Services
             return pagedResponse;
         }
 
-        public async Task<User> getUserById(Guid userId, string route, bool getPosts = false, PaginationFilter filter = null)
+        public async Task<User> getUserById(Guid userId, string route, PaginationFilter filter, bool getPosts = false)
         {
             //ask if posts are needed for example.
-            var user = await _context.Users.FindAsync(userId);
-            if(getPosts == true) user.Posts = (ICollection<Post>)await _postService.getPostsOfUser(userId, filter, route!);            //this shouldn't be needed probably?, i think my schema is wrong? i have to double check this - i checked a bit, i think i have to dig down to virtual navigation properties and lazy loading. will do.
+            var user = await _context.Users.Where(d => d.Uuid.Equals(userId)).FirstOrDefaultAsync();
+                _postService.getPostsOfUser(userId, filter, route!).Result.Data.ToString();
+            //this shouldn't be needed probably?, i think my schema is wrong? i have to double check this - i checked a bit, i think i have to dig down to virtual navigation properties and lazy loading. will do.
             return user;
         }
 
