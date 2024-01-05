@@ -1,4 +1,5 @@
 ﻿using haymatlosApi.haymatlosApi.Models;
+using haymatlosApi.haymatlosApi.Utils.Objects;
 using haymatlosApi.haymatlosApi.Utils.Pagination;
 using haymatlosApi.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -26,10 +27,9 @@ namespace haymatlosApi.Controllers
 
         [HttpGet("id")] 
         [Authorize(Roles = "user")]
-        public async Task<User> getUserById(Guid userId, [FromQuery]PaginationFilter filter, bool getPosts = false)
+        public async Task<ResponseResult<User>> getUserById(Guid userId, bool getPosts = false)
         {
-            var route = Request.Path.Value;
-            return await _userService.getUserById(userId, route!, filter, getPosts);
+            return await _userService.getUserById(userId, getPosts);
         }
 
         //POST: 

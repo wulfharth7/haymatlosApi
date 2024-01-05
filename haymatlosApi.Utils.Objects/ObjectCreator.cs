@@ -66,7 +66,7 @@ public class ObjectFactoryComment<T> where T : Comment, new()
         _comment.Description = comment.Description;
         _comment.Like = 0;
         _comment.Dislike = 0;
-        _comment.FkeyUuidUser = post.FkeyUuidUser;
+        _comment.FkeyUuidUser = _comment.FkeyUuidUser;
         _comment.ParentComment = parentComment;
 
         return _comment;

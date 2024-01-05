@@ -1,6 +1,6 @@
 ﻿using haymatlosApi.haymatlosApi.Models;
+using haymatlosApi.haymatlosApi.Utils.Objects;
 using haymatlosApi.haymatlosApi.Utils.Pagination;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace haymatlosApi.Services
@@ -24,6 +24,27 @@ namespace haymatlosApi.Services
             return post1;
         }
 
+        public async Task<Post> updatePost(Guid uuid, Post newPost)
+        {
+            var post = await _context.Posts.Where(d => d.PkeyUuidPost.Equals(uuid)).FirstOrDefaultAsync();
+            /* if (!NullChecker.IsNull(user))
+             {
+                 return null;
+             }*/
+            post.Title = newPost.Title;
+            post.category = newPost.category;
+            post.imageUrl = newPost.imageUrl;
+            post.content = newPost.content;//this should go into the object factory too.
+
+            await _context.SaveChangesAsync();
+            return new Post { PkeyUuidPost = post.PkeyUuidPost, Title = post.Title, category = post.category, content = post.content, imageUrl = post.imageUrl };
+        }
+
+        public async Task<ResponseResult<Post>> getPostsById(Guid postId)
+        {
+            var post = await _context.Posts.Where(d => d.PkeyUuidPost.Equals(postId)).FirstOrDefaultAsync();
+            return new ResponseResult<Post>(post);
+        }
         public async Task<PaginatedResponse<IEnumerable<Post>>> getPosts(PaginationFilter filter, string route)
         {
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);

@@ -1,4 +1,5 @@
 ﻿using haymatlosApi.haymatlosApi.Models;
+using haymatlosApi.haymatlosApi.Utils.Objects;
 using haymatlosApi.haymatlosApi.Utils.Pagination;
 using haymatlosApi.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -36,6 +37,14 @@ namespace haymatlosApi.Controllers
             //TO DO algorithm needed here for the main page.
         }
 
+        //GET
+        [HttpGet("postid")]
+        [Authorize(Roles = "user")]
+        public async Task<ResponseResult<Post>> getPosts(Guid postId)
+        {
+            return await _postService.getPostsById(postId);
+        }
+
         //POST:
         [HttpPost]
         [Authorize(Roles = "user")]
@@ -50,6 +59,14 @@ namespace haymatlosApi.Controllers
         {
             var route = Request.Path.Value;
             return await _postService.getPostsOfACategory(category, filter, route!);
+        }
+
+        //UPDATE:
+        [Authorize(Roles = "user")]
+        [HttpPut]
+        public async Task updatePost(Guid postId, [FromBody] Post post)
+        {
+            await _postService.updatePost(postId, post);
         }
 
         [HttpDelete]

@@ -1,9 +1,10 @@
 ﻿using haymatlosApi.haymatlosApi.Models;
 using haymatlosApi.haymatlosApi.Utils;
+using haymatlosApi.haymatlosApi.Utils.Objects;
 using haymatlosApi.haymatlosApi.Utils.Pagination;
 using haymatlosApi.Utils;
 using Microsoft.EntityFrameworkCore;
-// e1705d38-1b60-43df-ba64-af205dd8205e
+//e1705d38-1b60-43df-ba64-af205dd8205e
 
 namespace haymatlosApi.Services
 {
@@ -37,13 +38,10 @@ namespace haymatlosApi.Services
             return pagedResponse;
         }
 
-        public async Task<User> getUserById(Guid userId, string route, PaginationFilter filter, bool getPosts = false)
+        public async Task<ResponseResult<User>> getUserById(Guid userId, bool getPosts = false)
         {
-            //ask if posts are needed for example.
             var user = await _context.Users.Where(d => d.Uuid.Equals(userId)).FirstOrDefaultAsync();
-                _postService.getPostsOfUser(userId, filter, route!).Result.Data.ToString();
-            //this shouldn't be needed probably?, i think my schema is wrong? i have to double check this - i checked a bit, i think i have to dig down to virtual navigation properties and lazy loading. will do.
-            return user;
+            return new ResponseResult<User>(user); 
         }
 
         public async Task<bool> registerUser(string nickname, string password) //maybe email
