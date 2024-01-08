@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System.Data;
+using System.Reflection.Metadata.Ecma335;
 
 namespace haymatlosApi.Controllers
 {
@@ -32,17 +33,17 @@ namespace haymatlosApi.Controllers
 
         [HttpGet]
         [Authorize(Roles = "user")]
-        public async Task<IEnumerable<Comment>> getCommentsOfAPost(Guid PostId)
+        public async Task<IEnumerable<Comment>> getCommentsOfAPost(Guid postId)
         {
-            return await _commentService.getPostComments(PostId);
+            return await _commentService.getPostComments(postId);
         }
 
-        /*[HttpGet]
+        [HttpGet("userId")]
         [Authorize(Roles = "user")]
-        public async Task*//*Comment List Döner sanırsam emin değilim suan*//* getCommentsOfUser(Guid UserId)
+        public async Task<IEnumerable<Comment>>getCommentsOfUser(Guid userId)
         {
-            //service already ready. call it here.
-        }*/
+            return await _commentService.getUserComments(userId);
+        }
 
         [HttpDelete]
         [Authorize(Roles = "admin,user")]
