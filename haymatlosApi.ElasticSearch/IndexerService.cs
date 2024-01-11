@@ -66,7 +66,7 @@ namespace haymatlosApi.haymatlosApi.ElasticSearch
                 foreach (var user in obj)
                 {
                     var jsonString = JsonConvert.SerializeObject(user, _options);
-                    await outputFile.WriteLineAsync("\"{\\\"index\\\": {}}\"");
+                    /*await outputFile.WriteLineAsync("\"{\\\"index\\\": {}}\"");*/
                     await outputFile.WriteLineAsync(jsonString);
                 }
             }

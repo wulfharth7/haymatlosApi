@@ -18,6 +18,8 @@ namespace haymatlosApi.Services
 
         public async Task createComment(Post post, Comment comment, Guid? parentComment)
         {
+            var username = await _context.Users.Where(d => d.Uuid.Equals(comment.FkeyUuidUser)).FirstOrDefaultAsync();
+            comment.commenterUsername = username.Nickname; //null check lazım
             var cm1 = new ObjectFactoryComment<Comment>().createCommentObj(post,comment, parentComment);
             await _context.Comments.AddAsync(cm1);
             await _context.SaveChangesAsync();

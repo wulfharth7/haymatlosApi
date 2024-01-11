@@ -14,6 +14,7 @@ public partial class Comment
     public Guid? ParentComment { get; set; }
 
     public DateTime? RegDate { get; set; }
+    public string? commenterUsername { get; set; }
 
     public short? Like { get; set; }
 

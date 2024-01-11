@@ -20,10 +20,11 @@ public partial class Post
     public string? category { get; set; }
 
     public short? Like { get; set; }
+    public short? CommentCount { get; set; }
+    public string? posterUsername { get; set; }
 
     public short? Dislike { get; set; }
-    //category
-   
+
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
     public virtual User? FkeyUuidUserNavigation { get; set; }

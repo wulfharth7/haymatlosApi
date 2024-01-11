@@ -1,4 +1,5 @@
-﻿using haymatlosApi.haymatlosApi.Models;
+﻿using haymatlosApi.haymatlosApi.ElasticSearch;
+using haymatlosApi.haymatlosApi.Models;
 using haymatlosApi.haymatlosApi.Utils.Objects;
 using haymatlosApi.haymatlosApi.Utils.Pagination;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,8 @@ namespace haymatlosApi.Services
 
         public async Task<Post> createPost(Guid userId, Post post)
         {
+            var username = await _context.Users.Where(d => d.Uuid.Equals(userId)).FirstOrDefaultAsync();
+            post.posterUsername = username.Nickname; //null check lazım
             var post1 = new ObjectFactoryPost<Post>().createPostObj(userId, post);
             await _context.Posts.AddAsync(post1);
             await _context.SaveChangesAsync();
@@ -42,7 +45,9 @@ namespace haymatlosApi.Services
 
         public async Task<ResponseResult<Post>> getPostsById(Guid postId)
         {
-            var post = await _context.Posts.Where(d => d.PkeyUuidPost.Equals(postId)).FirstOrDefaultAsync();
+            var post = await _context.Posts.Where(d => d.PkeyUuidPost.Equals(postId)).FirstOrDefaultAsync(); //post'a null check koy
+            var commentCount = await _context.Comments.Where(d => d.FkeyUuidPost.Equals(postId)).ToListAsync();
+            post.CommentCount = (short?)commentCount.Count();
             return new ResponseResult<Post>(post);
         }
         public async Task<PaginatedResponse<IEnumerable<Post>>> getPosts(PaginationFilter filter, string route)
@@ -52,10 +57,16 @@ namespace haymatlosApi.Services
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)
                 .ToListAsync();
+            foreach( var post in pagedPostData )
+            {
+                var commentCount = await _context.Comments.Where(d => d.FkeyUuidPost.Equals(post.PkeyUuidPost)).ToListAsync();
+                post.CommentCount = (short?)commentCount.Count();
+            }
             var totalRecords = await _context.Posts.CountAsync();
             var pagedReponse = PaginationHelper.CreatePagedReponse<Post>(pagedPostData, validFilter, totalRecords, _uriService, route);
             return pagedReponse;
         }
+        
 
         public async Task<PaginatedResponse<IEnumerable<Post>>> getPostsOfUser(Guid userId, PaginationFilter filter, string route)
         {
@@ -65,6 +76,11 @@ namespace haymatlosApi.Services
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)
                 .ToListAsync();
+            foreach (var post in pagedPostData)
+            {
+                var commentCount = await _context.Comments.Where(d => d.FkeyUuidPost.Equals(post.PkeyUuidPost)).ToListAsync();
+                post.CommentCount = (short?)commentCount.Count();
+            }
             var totalRecords = await _context.Posts.CountAsync();
             var pagedReponse = PaginationHelper.CreatePagedReponse<Post>(pagedPostData, validFilter, totalRecords, _uriService, route);
             return pagedReponse;
@@ -78,6 +94,11 @@ namespace haymatlosApi.Services
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)
                 .ToListAsync();
+            foreach (var post in pagedPostData)
+            {
+                var commentCount = await _context.Comments.Where(d => d.FkeyUuidPost.Equals(post.PkeyUuidPost)).ToListAsync();
+                post.CommentCount = (short?)commentCount.Count();
+            }
             var totalRecords = await _context.Posts.CountAsync();
             var pagedReponse = PaginationHelper.CreatePagedReponse<Post>(pagedPostData, validFilter, totalRecords, _uriService, route);
             return pagedReponse;

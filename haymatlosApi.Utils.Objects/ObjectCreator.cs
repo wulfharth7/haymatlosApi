@@ -39,6 +39,8 @@ public class ObjectFactoryPost<T> where T : Post, new()
         _post.PkeyUuidPost = Guid.NewGuid();
         _post.FkeyUuidUser = userId;
         _post.Like = 0;
+        _post.posterUsername = post.posterUsername;
+        /*_post.CommentCount = post.CommentCount;*/
         _post.imageUrl = post.imageUrl ?? string.Empty;
         _post.content = post.content ?? string.Empty;
         _post.category = post.category ?? string.Empty;
@@ -66,7 +68,8 @@ public class ObjectFactoryComment<T> where T : Comment, new()
         _comment.Description = comment.Description;
         _comment.Like = 0;
         _comment.Dislike = 0;
-        _comment.FkeyUuidUser = _comment.FkeyUuidUser;
+        _comment.commenterUsername = comment.commenterUsername;
+        _comment.FkeyUuidUser = comment.FkeyUuidUser;
         _comment.ParentComment = parentComment;
 
         return _comment;

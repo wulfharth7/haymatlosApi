@@ -56,6 +56,9 @@ namespace haymatlosApi.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("regDate");
 
+                    b.Property<string>("commenterUsername")
+                        .HasColumnType("text");
+
                     b.HasKey("PkeyUuidComment")
                         .HasName("comments_pkey");
 
@@ -71,6 +74,9 @@ namespace haymatlosApi.Migrations
                     b.Property<Guid>("PkeyUuidPost")
                         .HasColumnType("uuid")
                         .HasColumnName("pkey_uuid_post");
+
+                    b.Property<short?>("CommentCount")
+                        .HasColumnType("smallint");
 
                     b.Property<short?>("Dislike")
                         .HasColumnType("smallint")
@@ -99,6 +105,9 @@ namespace haymatlosApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("imageUrl")
+                        .HasColumnType("text");
+
+                    b.Property<string>("posterUsername")
                         .HasColumnType("text");
 
                     b.HasKey("PkeyUuidPost")
