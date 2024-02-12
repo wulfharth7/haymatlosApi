@@ -1,4 +1,4 @@
-﻿using haymatlosApi.haymatlosApi.Models;
+﻿/*using haymatlosApi.haymatlosApi.Models;
 using haymatlosApi.haymatlosApi.Utils.Pagination;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -8,7 +8,7 @@ namespace haymatlosApi.haymatlosApi.ElasticSearch
     public class IndexerService
     {
         private readonly JsonSerializerSettings _options = new() { NullValueHandling = NullValueHandling.Ignore,
-                                                                    /*ReferenceLoopHandling = ReferenceLoopHandling.Ignore */
+                                                                    *//*ReferenceLoopHandling = ReferenceLoopHandling.Ignore *//*
                                                                                                             };
 
         private PostgresContext _context;
@@ -66,7 +66,7 @@ namespace haymatlosApi.haymatlosApi.ElasticSearch
                 foreach (var user in obj)
                 {
                     var jsonString = JsonConvert.SerializeObject(user, _options);
-                    /*await outputFile.WriteLineAsync("\"{\\\"index\\\": {}}\"");*/
+                    *//*await outputFile.WriteLineAsync("\"{\\\"index\\\": {}}\"");*//*
                     await outputFile.WriteLineAsync(jsonString);
                 }
             }
@@ -80,7 +80,7 @@ namespace haymatlosApi.haymatlosApi.ElasticSearch
 //i'll also optimize this place and wont use this cmd command.
 //this was fucking tiring but really was worth it. im kinda understanding it now.
 //for elastic search. i created index with tis bcs array of objs aren't acepted so i nested em.
-/*PUT /test_index
+*//*PUT /test_index
 {
    "mappings": {
       "properties": {
@@ -104,7 +104,7 @@ namespace haymatlosApi.haymatlosApi.ElasticSearch
       }
    }
 }
-}*/
+}*//*
 //https://www.elastic.co/guide/en/elasticsearch/reference/8.9/array.html
 // just had to type index name into the dataview index pattern :D
-//https://www.elastic.co/guide/en/elasticsearch/client/net-api/8.9/connecting.html#single-node
+//https://www.elastic.co/guide/en/elasticsearch/client/net-api/8.9/connecting.html#single-node*/
